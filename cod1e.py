@@ -1,1 +1,19 @@
-# ransanmoi
+import pygame
+pygame.init()
+screen= pygame.display.set_mode((600,600))
+pygame.display.set_caption("Snake")
+running=True
+GREEN=(0,200,0)
+clock=pygame.time.Clock()
+
+while running:
+    clock.tick(60)
+    screen.fill(GREEN)
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running=False
+    pygame.display.flip()
+
+
+pygame.quit()
