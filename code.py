@@ -36,9 +36,9 @@ while running:
     tail_y = snakes[0][1]
 
     # vẽ lưới (1 ô lưới có kích thước khoảng 30x30)
-    for i in range (0,21):
-        pygame.draw.line(screen, WHITE,(0,i*30),(600,i*30))  # vẽ đường thẳng nằm ngang
-        pygame.draw.line(screen, WHITE, (30*i,0),(30*i,600))  # vẽ đường thẳng dọc
+    # for i in range (0,21):
+    #     pygame.draw.line(screen, WHITE,(0,i*30),(600,i*30))  # vẽ đường thẳng nằm ngang
+    #     pygame.draw.line(screen, WHITE, (30*i,0),(30*i,600))  # vẽ đường thẳng dọc
 
     # vẽ con rắn
     for snake in snakes:  # duyệt qua list snakes
@@ -107,7 +107,7 @@ while running:
                 pausing = False  
                 snakes= [[5,6],[5,7],[5,8]] # reset lại rắn
                 apple=[randint(0,19), randint(0,19)]  # random lại quả táo
-                score=0
+                score = 0
 
     pygame.display.flip()
 
