@@ -46,6 +46,9 @@ while running:
     for snake in snakes:  # duyệt qua list snakes
         pygame.draw.rect(screen, BLUE1, (snake[0]*30, snake[1]*30, 30, 30))  # vẽ đầu con rắn hình vuông (2 phần đầu là vị trí, 2 phần sau là kích thước)
         pygame.draw.rect(screen, BLUE2, (snake[0]*30-4, snake[1]*30-4, 16, 16))  # vẽ sọc rắn
+    head= snakes[-1]
+    pygame.draw.circle(screen, WHITE, (head[0]*30+10, head[1]*30+10), 5)  # mắt trái
+    pygame.draw.circle(screen, WHITE, (head[0]*30+20, head[1]*30+10), 5)  # mắt phải
 
     #vẽ quả táo
     pygame.draw.rect(screen, RED, (apple[0]*30, apple[1]*30, 30, 30))
@@ -91,7 +94,7 @@ while running:
     if snakes[-1][0] < 0 or snakes[-1][0] > 19 or snakes[-1][1] < 0 or snakes[-1][1] > 19:
         pausing = True
 
-    sleep(0.1)  # lệnh này để con rắn chạy chậm lại (dừng màn hình, số càng lớn rắn càng chậm)
+    sleep(0.09)  # lệnh này để con rắn chạy chậm lại (dừng màn hình, số càng lớn rắn càng chậm)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
