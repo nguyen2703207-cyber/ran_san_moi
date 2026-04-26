@@ -7,8 +7,10 @@ pygame.init()
 screen= pygame.display.set_mode((601,601))  # màn hình 601x601, 601 chừa ra để thấy đường line rõ hơn
 pygame.display.set_caption("Snake")  # tiêu đề
 running=True
+
 # các biến màu
-GREEN=(0,255,0)
+BLUE1 = (0, 0, 255)
+BLUE2 = (0, 100, 255)
 BLACK=(0,0,0)
 WHITE=(255,255,255)
 RED=(255,0,0)
@@ -42,7 +44,8 @@ while running:
 
     # vẽ con rắn
     for snake in snakes:  # duyệt qua list snakes
-        pygame.draw.rect(screen, GREEN, (snake[0]*30, snake[1]*30, 30, 30))  # vẽ đầu con rắn hình vuông (2 phần đầu là vị trí, 2 phần sau là kích thước)
+        pygame.draw.rect(screen, BLUE1, (snake[0]*30, snake[1]*30, 30, 30))  # vẽ đầu con rắn hình vuông (2 phần đầu là vị trí, 2 phần sau là kích thước)
+        pygame.draw.rect(screen, BLUE2, (snake[0]*30-4, snake[1]*30-4, 16, 16))  # vẽ sọc rắn
 
     #vẽ quả táo
     pygame.draw.rect(screen, RED, (apple[0]*30, apple[1]*30, 30, 30))
