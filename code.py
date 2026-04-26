@@ -72,7 +72,7 @@ while running:
         score+=1
     
     # draw score
-    score_txt = font_small.render("SCore:" +str(score), True, WHITE)
+    score_txt = font_small.render("Score:" +str(score), True, WHITE)
     screen.blit(score_txt, (5,5))
 
     # di chuyển rắn tự động
