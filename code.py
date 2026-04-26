@@ -128,6 +128,7 @@ while running:
                 direction= "right"  # reset lại hướng
                 apple=[randint(0,19), randint(0,19)]  # random lại quả táo
                 score = 0
+                gameovermusic = False
 
     pygame.display.flip()
 
