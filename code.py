@@ -112,6 +112,7 @@ while running:
             if event.key== pygame.K_SPACE and pausing== True:  # khi đã thua và nhấn space
                 pausing = False  
                 snakes= [[5,6],[5,7],[5,8]] # reset lại rắn
+                direction= "right"  # reset lại hướng
                 apple=[randint(0,19), randint(0,19)]  # random lại quả táo
                 score = 0
 
