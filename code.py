@@ -29,6 +29,8 @@ score=0
 # biến dừng lại
 pausing = False
 
+gameovermusic = False
+
 while running:
     clock.tick(60)
     screen.fill(BLACK)
@@ -42,6 +44,7 @@ while running:
     #     pygame.draw.line(screen, WHITE,(0,i*30),(600,i*30))  # vẽ đường thẳng nằm ngang
     #     pygame.draw.line(screen, WHITE, (30*i,0),(30*i,600))  # vẽ đường thẳng dọc
 
+    
     # vẽ con rắn
     for snake in snakes:  # duyệt qua list snakes
         pygame.draw.rect(screen, BLUE1, (snake[0]*30, snake[1]*30, 30, 30))  # vẽ đầu con rắn hình vuông (2 phần đầu là vị trí, 2 phần sau là kích thước)
@@ -49,6 +52,8 @@ while running:
     head= snakes[-1]
     pygame.draw.circle(screen, WHITE, (head[0]*30+10, head[1]*30+10), 5)  # mắt trái
     pygame.draw.circle(screen, WHITE, (head[0]*30+20, head[1]*30+10), 5)  # mắt phải
+    pygame.draw.circle(screen, BLACK, (head[0]*30+10, head[1]*30+10), 2)  
+    pygame.draw.circle(screen, BLACK, (head[0]*30+20, head[1]*30+10), 2) 
 
     #vẽ quả táo
     pygame.draw.rect(screen, RED, (apple[0]*30, apple[1]*30, 30, 30))
@@ -60,16 +65,24 @@ while running:
 
     # vẽ màn hình game over
     if pausing == True:
-        game_over_txt = font_big.render("Game over, score:" +str(score), True, WHITE)
+        game_over_txt = font_big.render("Game over, score:" +str(score), True, (255,255,0))
         press_space_txt = font_big.render("Press Space to continue", True, WHITE)
-        screen.blit(game_over_txt, (50,200))
-        screen.blit(press_space_txt, (50,300))
+        screen.blit(game_over_txt, (screen.get_width()/2 - game_over_txt.get_width()/2, 200))
+        screen.blit(press_space_txt, (screen.get_width()/2 - press_space_txt.get_width()/2, 350))
+        
+        # code này để kết thúc nhạc chỉ phát 1 lần
+        if not  gameovermusic:
+            pygame.mixer.music.load("thua.wav")  # nạp file nhạc vào
+            pygame.mixer.music.play()
+            gameovermusic = True
 
     # tính điểm
     if snakes[-1][0] == apple[0] and snakes[-1][1] == apple[1]: # check giá trị x, y có bằng nhau không (đầu rắn có chạm quả táo hay không)
         snakes.insert(0,[tail_x,tail_y])
         apple=[randint(0,19), randint(0,19)] # khi chạm thì random ra 1 apple mới
         score+=1
+        pygame.mixer.music.load("ăn táo.wav")  # nạp file nhạc vào
+        pygame.mixer.music.play()  #phát file nhạc
     
     # draw score
     score_txt = font_small.render("Score:" +str(score), True, WHITE)
