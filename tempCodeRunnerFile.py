@@ -1,0 +1,1 @@
+screen.get_width()/2 - logo.get_width()/2, 150
