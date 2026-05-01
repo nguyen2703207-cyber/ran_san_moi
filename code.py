@@ -23,10 +23,9 @@ snakes= [[5,6],[5,7],[5,8]]
 direction= "right"
 # quả táo
 apple=[randint(0,19), randint(0,19)]
-#táo vàng, không trùng táo đỏ
-golden_apple = [randint(0,19), randint(0,19)]
-while golden_apple == apple:
-    golden_apple = [randint(0,19), randint(0,19)]
+#táo vàng
+golden_apple = None
+
 
 # chữ
 font_small = pygame.font.SysFont("arial",20)
@@ -44,7 +43,15 @@ play_button = pygame.Rect(250, 520, 150, 60)  # x, y, width, height
 blink_timer = 0
 while running:
     clock.tick(60)
-    screen.fill(BLACK)
+    # vẽ nền cỏ
+    for row in range(20):
+        for col in range(20):
+            if (row + col) % 2 == 0:
+                color = (124,205,124)   # xanh đậm
+            else:
+                color = (152,251,152)   # xanh nhạt
+            pygame.draw.rect(screen, color, (col*30, row*30, 30, 30))
+
 
     # vẽ giao diện ban đầu
     if state == "menu":
@@ -123,8 +130,12 @@ while running:
 
         # vẽ màn hình game over
         if pausing == True:
+            # tạo hình chữ nhật nền
+            pygame.draw.rect(screen, BLACK, (60, 180, 480, 150))  # nền đen
+            pygame.draw.rect(screen, WHITE, (60, 180, 480, 150), 3)  # viền trắng  
+            # viết chữ
             game_over_txt = font_big.render("Game over, score:" +str(score), True, (255,255,0))
-            press_space_txt = font_big.render("Press Space to return to Menu", True, WHITE)
+            press_space_txt = font_big.render("Press Space to continue", True, WHITE)
             screen.blit(game_over_txt, (screen.get_width()/2 - game_over_txt.get_width()/2, 200))
             screen.blit(press_space_txt, (screen.get_width()/2 - press_space_txt.get_width()/2, 250))
             
@@ -144,16 +155,13 @@ while running:
             pygame.mixer.music.load("an_tao.wav")  # nạp file nhạc vào
             pygame.mixer.music.play()  #phát file nhạc
 
-            # xác suất 1/5 để sinh táo vàng
-            if randint(1,5) == 1:
+            # xác suất 1/5 để sinh táo vàng, chỉ sinh táo vàng nếu chưa có
+            if golden_apple is None and randint(1,5) == 1:
                 golden_apple = [randint(0,19), randint(0,19)]
                 while golden_apple == apple:  # tránh trùng
                     golden_apple = [randint(0,19), randint(0,19)]
-            else:
-                golden_apple = None  # không có táo vàng
 
         
-        # ăn táo vàng +5
         # ăn táo vàng +5
         if golden_apple and snakes[-1][0] == golden_apple[0] and snakes[-1][1] == golden_apple[1]:
             snakes.insert(0,[tail_x,tail_y])
@@ -206,7 +214,7 @@ while running:
                     direction = "left"
                 if event.key == pygame.K_RIGHT and direction != "left":
                     direction = "right"
-                #phím Space trở về menu
+                #phím Space chơi lại
                 if event.key== pygame.K_SPACE and pausing== True:  
                     pausing = False  
                     snakes= [[5,6],[5,7],[5,8]] # reset lại rắn
@@ -214,7 +222,7 @@ while running:
                     apple=[randint(0,19), randint(0,19)]  # random lại quả táo
                     score = 0
                     gameovermusic = False
-                    state = "menu"
+                    
                 # phím Esc: thoát nhanh
                 if event.key == pygame.K_ESCAPE:
                     running = False
