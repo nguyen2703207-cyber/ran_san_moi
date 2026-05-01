@@ -164,6 +164,7 @@ class MAIN:
                 self.game_over()
 
     def draw_grass(self):
+        # Vẽ cỏ
         grass_color =(167,209,61)
         for  row in range(cell_number):
             if row % 2 == 0:
