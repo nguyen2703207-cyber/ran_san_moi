@@ -210,7 +210,7 @@ SCREEN_UPDATE = pygame.USEREVENT
 # Cứ mỗi 150 mili giây thì tạo ra SCREEN_UPDATE
 pygame.time.set_timer(SCREEN_UPDATE, 150)
 apple = pygame.image.load('Graphics/apple.png').convert_alpha()
-game_font = pygame.font.Font('font/PoetsenOne-Regular.ttf', 25)
+game_font = pygame.font.Font('font/Super Starfish.ttf', 25)
 main_game = MAIN()
 
 while True:
