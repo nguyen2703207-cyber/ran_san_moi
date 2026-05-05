@@ -238,19 +238,25 @@ class MAIN:
         screen.blit(logo, logo_rect)
 
         # nút play
-        play_button = pygame.Rect(320, 720, 160, 60)  # x, y, width, height
-        font_big = pygame.font.SysFont("arial",50)
+        play_button = pygame.Rect(320, 680, 120, 60)  # x, y, width, height
+        # Tải hình nút Play
+        play_img = pygame.image.load("button.png").convert_alpha()
+        play_img = pygame.transform.scale(play_img, (170, 100))  # kích thước
+        font_big = pygame.font.Font('font/Super Starfish.ttf', 50)
         global blink_timer
         blink_timer += 1
-        # vẽ nút Play
-        pygame.draw.rect(screen,(0,255,0), play_button)
+        
+
+        # Vẽ nút Play
+        screen.blit(play_img, play_button)
+
         # hiệu ứng nhấp nháy chữ PLAY
         if (blink_timer // 30) % 2 == 0:  # đổi màu mỗi 30 khung hình
             play_txt = font_big.render("PLAY", True, (255, 106, 106))
         else:
             play_txt = font_big.render("PLAY", True, (205, 85, 85))
 
-        screen.blit(play_txt, (play_button.x + play_button.width/2 - play_txt.get_width()/2,play_button.y + play_button.height/2 - play_txt.get_height()/2))
+        screen.blit(play_txt, (360,700))
 
         # chỉ phát nhạc menu một lần
         if not pygame.mixer.music.get_busy():
@@ -261,8 +267,9 @@ class MAIN:
     # màn hình gameover
     def draw_gameover_screen(self):
         screen.fill((175,215,70))
-        font_big = pygame.font.SysFont("arial", 60)
-        font_small = pygame.font.SysFont("arial", 30)
+        font_big = pygame.font.Font('font/Super Starfish.ttf', 60)
+        font_small = pygame.font.Font('font/Super Starfish.ttf', 30)
+
 
         over_text = font_big.render("GAME OVER", True, (200,0,0))
         restart_text = font_small.render("Press SPACE to Restart", True, (56,74,12))
