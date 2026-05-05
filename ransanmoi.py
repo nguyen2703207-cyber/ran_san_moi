@@ -1,22 +1,27 @@
 import pygame, sys,random
 from pygame.math import Vector2
 
+# vẽ rắn
 class SNAKE:
     def __init__(self):
-        self.body = [Vector2(8,9), Vector2(9,9), Vector2(10,9)]
-        self.direction = Vector2(0,0)
-        self.new_block = False
+        self.body = [Vector2(8,9), Vector2(9,9), Vector2(10,9)]  # các khối tạo thành rắn ban đầu
+        self.direction = Vector2(0,0)  # hướng di chuyển ban đầu
+        self.new_block = False  # cờ báo rắn ăn táo để thêm khối
 
+        # tải hình ảnh rắn
+        # đầu rắn (convert_alpha: giữ độ trong suốt)
         self.head_up = pygame.image.load('Graphics/head_up.png').convert_alpha()
         self.head_down = pygame.image.load('Graphics/head_down.png').convert_alpha()
         self.head_right = pygame.image.load('Graphics/head_right.png').convert_alpha()
         self.head_left = pygame.image.load('Graphics/head_left.png').convert_alpha()
 
+        # đuôi rắn
         self.tail_up = pygame.image.load('Graphics/tail_up.png').convert_alpha()
         self.tail_down = pygame.image.load('Graphics/tail_down.png').convert_alpha()
         self.tail_right = pygame.image.load('Graphics/tail_right.png').convert_alpha()
         self.tail_left = pygame.image.load('Graphics/tail_left.png').convert_alpha()
 
+        # thân rắn
         self.body_vertical = pygame.image.load('Graphics/body_vertical.png').convert_alpha()
         self.body_horizontal = pygame.image.load('Graphics/body_horizontal.png').convert_alpha()
 
@@ -24,21 +29,30 @@ class SNAKE:
         self.body_tl = pygame.image.load('Graphics/body_tl.png').convert_alpha()
         self.body_br = pygame.image.load('Graphics/body_br.png').convert_alpha()
         self.body_bl = pygame.image.load('Graphics/body_bl.png').convert_alpha()
+
+        # âm thanh khi ăn táo
         self.crunch_sound = pygame.mixer.Sound('sound/crunch.wav')
 
+    # vẽ rắn
     def draw_snake(self):
+
+        # cập nhật hình ảnh đầu và đuôi theo hướng
         self.update_head_graphics()
         self.update_tail_graphics()
 
+        # duyệt từng khối của rắn, vẽ
         for index,block in enumerate(self.body):
             x_pos = int(block.x * cell_size)
             y_pos = int(block.y * cell_size)
             block_rect = pygame.Rect(x_pos,y_pos,cell_size,cell_size)
 
-            if index == 0:
+            # nếu là khối đầu, vẽ đầu
+            if index == 0:  
                 screen.blit(self.head,block_rect)
+            # khối cuối, vẽ đuôi
             elif index == len(self.body) - 1:
                 screen.blit(self.tail,block_rect)
+            # khối thân, vẽ thân
             else:
                 previous_block = self.body[index + 1] - block
                 next_block = self.body[index - 1] - block
@@ -57,7 +71,7 @@ class SNAKE:
                         screen.blit(self.body_br, block_rect)
 
 
-
+    # hàm xác định hướng đầu rắn để hiển thị hình ảnh tương ứng
     def update_head_graphics(self):
         head_relation = self.body[1] - self.body[0]
         if head_relation == Vector2(1,0): self.head = self.head_left
@@ -65,6 +79,7 @@ class SNAKE:
         elif head_relation == Vector2(0, 1): self.head = self.head_up
         elif head_relation == Vector2(0, -1): self.head = self.head_down
 
+    # hàm xác định hướng đuôi rắn để hiển thị hình ảnh tương ứng
     def update_tail_graphics(self):
         tail_relation = self.body[-2] - self.body[-1]
         if tail_relation == Vector2(1,0): self.tail = self.tail_left
@@ -73,6 +88,7 @@ class SNAKE:
         elif tail_relation == Vector2(0, -1): self.tail = self.tail_down
 
 
+    # di chuyển rắn
     def move_snake(self):
         # Nếu rắn vừa ăn fruit
         if self.new_block == True:
@@ -93,26 +109,32 @@ class SNAKE:
             # Cập nhật lại thân rắn
             self.body = body_copy[:]
 
+    
     def add_block(self):
         self.new_block = True
 
+    # sound khi ăn táo
     def play_crunch_sound(self):
         self.crunch_sound.play()
 
+    # hàm khởi tạo lại
     def reset(self):
         self.body = [Vector2(8, 9), Vector2(9, 9), Vector2(10, 9)]
-        self.direction = Vector2(0, 0)
+        self.direction = Vector2(-1, 0)
+
 
 class FRUIT:
     def __init__(self):
         # Tạo vị trí ngẫu nhiên ban đầu cho fruit
         self.randomize()
 
+    # vẽ táo lên màn hình
     def draw_fruit(self):
         # Đổi tọa độ ô của fruit sang tọa độ pixel
         fruit_rect = pygame.Rect(int(self.pos.x * cell_size),int(self.pos.y * cell_size),cell_size,cell_size)
         screen.blit(apple,fruit_rect)
 
+    # chọn tọa độ ngẫu nhiên trong lưới
     def randomize(self):
         self.x = random.randint(0, cell_number - 1)  # trừ 1 do có trường hợp bằng 20 thì sẽ bị nằm ngoài màn hình
         self.y = random.randint(0, cell_number - 1)
@@ -123,14 +145,16 @@ class MAIN:
         self.snake = SNAKE()
         self.fruit = FRUIT()
 
+     # Cập nhật game sau mỗi khoảng thời gian
     def update(self):
-        # Cập nhật game sau mỗi khoảng thời gian
+        # Kiểm tra rắn di chuyển
         self.snake.move_snake()
         # Kiểm tra rắn có ăn fruit không
         self.check_collision()
         # Kiểm tra rắn có thua không
         self.check_fail()
 
+    # vẽ toàn bộ thành phần của game lên màn hình
     def draw_element(self):
         self.draw_grass()
         self.fruit.draw_fruit()
@@ -181,7 +205,8 @@ class MAIN:
                     if col % 2 != 0:
                         grass_rect = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
                         pygame.draw.rect(screen,grass_color,grass_rect)
-                        
+
+    # khi rắn cắn thân hoặc đụng tường dừng game và phát âm thanh
     def game_over(self):
         global game_state
         game_state = "gameover"
@@ -189,8 +214,8 @@ class MAIN:
         pygame.mixer.music.load("thua.wav")  
         pygame.mixer.music.play()  # phát 1 lần duy nhất
         
-
-    def draw_score(self):# tạo bảng điểm
+    # tạo bảng điểm
+    def draw_score(self):
         score_text = str(len(self.snake.body) - 3)
         score_surface = game_font.render(score_text,True ,(56,74,12))
         score_x = int(cell_size * cell_number - 60)
@@ -204,6 +229,7 @@ class MAIN:
         screen.blit(apple,apple_rect)
         pygame.draw.rect(screen, (56,74,12), bg_rect,2)
     
+    # màn hình menu
     def draw_start_screen(self):
         screen.fill((175,215,70))
         logo = pygame.image.load("menu.png").convert()
@@ -211,6 +237,7 @@ class MAIN:
         logo_rect = logo.get_rect(topleft=(0,0))
         screen.blit(logo, logo_rect)
 
+        # nút play
         play_button = pygame.Rect(320, 720, 160, 60)  # x, y, width, height
         font_big = pygame.font.SysFont("arial",50)
         global blink_timer
@@ -231,6 +258,7 @@ class MAIN:
             pygame.mixer.music.play(-1)
         return play_button
     
+    # màn hình gameover
     def draw_gameover_screen(self):
         screen.fill((175,215,70))
         font_big = pygame.font.SysFont("arial", 60)
@@ -264,10 +292,12 @@ blink_timer = 0
 
 
 while True:
+    # kiểm tra sự kiện
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+
 
         if game_state == "start":
             if event.type == pygame.MOUSEBUTTONDOWN:
