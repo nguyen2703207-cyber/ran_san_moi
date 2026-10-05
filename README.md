@@ -1,0 +1,5 @@
+Bài báo này trình bày quá trình thiết kế và xây dựng trò chơi Rắn săn mồi (Snake Game) sử dụng ngôn ngữ lập trình Python kết hợp với thư viện Pygame. Sản phẩm được phát triển theo mô hình lập trình hướng đối tượng với ba lớp chính: SNAKE, FRUIT và MAIN, áp dụng cấu trúc dữ liệu List để mô phỏng chuyển động của rắn thông qua cơ chế thêm đầu – xóa đuôi, và thuật toán kiểm tra va chạm để xử lý các tình huống kết thúc game. Kết quả kiểm thử trên 12 chức năng cho thấy toàn bộ các tính năng hoạt động đúng theo yêu cầu, bao gồm điều khiển hướng di chuyển, xử lý va chạm, hệ thống tính điểm và âm thanh. Đề tài khẳng định Python và Pygame là bộ công cụ phù hợp cho việc học lập trình game 2D ở mức độ cơ bản.
+
+<img width="707" height="687" alt="image" src="https://github.com/user-attachments/assets/75d8aa31-c852-48c6-a414-a0028e324ff1" />
+<img width="536" height="688" alt="image" src="https://github.com/user-attachments/assets/d07ce354-6426-4b71-8491-5fdd4b71264a" />
+<img width="552" height="591" alt="image" src="https://github.com/user-attachments/assets/043d555f-650d-4836-af43-126912e08e5c" />
